@@ -489,26 +489,26 @@ Constitutional AI → Prompt自动搜索(OPRO) → Agent自主Prompt编写
 ```mermaid
 graph TB
     subgraph "Function Calling 完整流程"
-        A[用户: "北京今天天气怎么样？"] --> B[LLM 推理]
+        A["用户: 北京今天天气怎么样？"] --> B[LLM 推理]
         B --> C{需要调用工具吗？}
         
-        C -->|是| D[选择工具: get_weather]
-        D --> E[提取参数: {"city": "北京", "date": "today"}]
-        E --> F[返回 Function Call JSON]
+        C -->|是| D["选择工具: get_weather"]
+        D --> E["提取参数: city=北京, date=today"]
+        E --> F["返回 Function Call JSON"]
         F --> G[Runtime 执行函数]
-        G --> H[获取结果: "晴, 28°C, 微风"]
+        G --> H["获取结果: 晴, 28°C, 微风"]
         H --> I[结果回传 LLM]
         I --> J[LLM 生成最终回复]
-        J --> K["北京今天天气晴朗，气温28°C，微风，适合出行。"]
+        J --> K["北京今天天气晴朗，气温28°C，微风，适合出行"]
         
         C -->|否| L[直接生成回复]
     end
     
     subgraph "工具定义层"
-        M[Tool Registry] --> N[weather_tool: 查询天气]
-        M --> O[search_tool: 搜索引擎]
-        M --> P[calculator: 数学计算]
-        M --> Q[database: 数据查询]
+        M[Tool Registry] --> N["weather_tool: 查询天气"]
+        M --> O["search_tool: 搜索引擎"]
+        M --> P["calculator: 数学计算"]
+        M --> Q["database: 数据查询"]
     end
 ```
 
@@ -1771,7 +1771,7 @@ AutoGPT(自主Agent) → Multi-Agent ReAct(多Agent协作推理)
 ```mermaid
 graph TB
     subgraph "Planning 引擎"
-        G[目标: "构建一个完整的Web应用"] --> D[任务分解]
+        G["目标: 构建一个完整的Web应用"] --> D[任务分解]
         
         D --> T1[1. 需求分析]
         D --> T2[2. 技术选型]
@@ -1796,10 +1796,12 @@ graph TB
         E2 -->|是| E3[推进到下一子任务]
         E2 -->|否| E4[分析失败原因]
         E4 --> E5{需要重规划？}
-        E5 -->|是| D
-        E5 -->|否| E6[重试当前子任务]
-        E6 --> E1
+        E6[重试当前子任务]
     end
+
+    E5 -->|是| D
+    E5 -->|否| E6
+    E6 --> E1
 ```
 
 ### 模块三：底层原理深潜
@@ -2089,19 +2091,19 @@ Temporal Planning(时序规划) → PDDL(规划领域定义语言) → 自主目
 graph TB
     subgraph "Skills 生态系统"
         subgraph "技能注册中心 Skill Registry"
-            R[注册表] --> S1[🔍 信息检索 Skill]
-            R --> S2[📊 数据分析 Skill]
-            R --> S3[✍️ 文案生成 Skill]
-            R --> S4[🌐 翻译 Skill]
-            R --> S5[📧 邮件发送 Skill]
-            R --> S6[🖼️ 图像生成 Skill]
+            R[注册表] --> S1["🔍 信息检索 Skill"]
+            R --> S2["📊 数据分析 Skill"]
+            R --> S3["✍️ 文案生成 Skill"]
+            R --> S4["🌐 翻译 Skill"]
+            R --> S5["📧 邮件发送 Skill"]
+            R --> S6["🖼️ 图像生成 Skill"]
         end
         
         subgraph "技能组合 Skill Composition"
-            T1[用户需求: "分析竞品并写报告"] --> D[技能发现+组合]
-            D --> C1[S1: 搜索竞品信息]
-            D --> C2[S2: 分析数据]
-            D --> C3[S3: 生成报告]
+            T1["用户需求: 分析竞品并写报告"] --> D["技能发现+组合"]
+            D --> C1["S1: 搜索竞品信息"]
+            D --> C2["S2: 分析数据"]
+            D --> C3["S3: 生成报告"]
             C1 --> C2 --> C3
         end
         
