@@ -465,16 +465,16 @@ Prompt Engineering
 
 ```mermaid
 flowchart TB
-    A[用户: "北京今天要下雨吗？"] --> B[LLM 接收用户消息 + Tool Schema]
-    B --> C{模型推理: 需要调用工具吗？}
+    A["用户: 北京今天要下雨吗？"] --> B["LLM 接收用户消息 + Tool Schema"]
+    B --> C{"模型推理: 需要调用工具吗？"}
     C -->|不需要| D[直接生成文本回复]
     C -->|需要| E[生成 Function Call]
-    E --> F["get_weather(location='北京', date='today')"]
+    E --> F["get_weather: location=北京, date=today"]
     F --> G[宿主程序执行函数]
-    G --> H[返回结果: "北京，晴，25°C"]
+    G --> H["返回结果: 北京，晴，25°C"]
     H --> I[结果注入 LLM 上下文]
     I --> J[LLM 基于结果生成自然语言回复]
-    J --> K["北京今天是晴天，25°C，不用带伞。"]
+    J --> K["北京今天是晴天，25°C，不用带伞"]
     
     style E fill:#f96,stroke:#333
     style G fill:#6f6,stroke:#333
