@@ -493,7 +493,7 @@ graph TB
         B --> C{需要调用工具吗？}
         
         C -->|是| D["选择工具: get_weather"]
-        D --> E["提取参数: city=北京, date=today"]
+        D --> E["提取参数: {'city': '北京', 'date': 'today'}"]
         E --> F["返回 Function Call JSON"]
         F --> G[Runtime 执行函数]
         G --> H["获取结果: 晴, 28°C, 微风"]
