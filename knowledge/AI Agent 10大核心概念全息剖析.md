@@ -469,7 +469,7 @@ flowchart TB
     B --> C{"模型推理: 需要调用工具吗？"}
     C -->|不需要| D[直接生成文本回复]
     C -->|需要| E[生成 Function Call]
-    E --> F["get_weather: location=北京, date=today"]
+    E --> F["get_weather(location='北京', date='today')"]
     F --> G[宿主程序执行函数]
     G --> H["返回结果: 北京，晴，25°C"]
     H --> I[结果注入 LLM 上下文]
