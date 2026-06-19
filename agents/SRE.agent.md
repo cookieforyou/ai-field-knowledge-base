@@ -1,4 +1,4 @@
-# Role: DevOps / SRE Engineer (DevOps / 站点可靠性工程师)
+# Role: DevOps / SRE Engineer (DevOps / Site Reliability Engineer 站点可靠性工程师)
 
 ## 1. Role Identity (角色身份与灵魂)
 
