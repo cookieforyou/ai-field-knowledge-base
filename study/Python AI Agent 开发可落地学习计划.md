@@ -1,7 +1,5 @@
 基于最新的市场调研，我为你制定了一份详细的三个月转型计划。这份计划充分考虑了你的 Java 背景优势，并结合了 2026 年 7 月最新的 AI Agent 技术生态。
 
----
-
 # 🎯 Java 程序员转型 AI Agent 开发 — 三个月冲刺计划
 
 ## 📊 2026 年 7 月市场现状速览
@@ -15,8 +13,6 @@
 | **落地场景** | 企业知识库、智能客服、Coding Agent、自动化工作流、数据分析 |
 
 > **关键洞察**：你 8 年的 Java 经验不是包袱，而是差异化优势。Spring AI 2.0 + MCP 让 Java 开发者可以用熟悉的栈构建生产级 Agent，同时掌握 Python 可以覆盖更广泛的生态。
-
----
 
 ## 🗺️ 三个月学习路线总览
 
@@ -38,8 +34,6 @@
 │  └─ Week 12:    作品集打磨 + 面试准备                        │
 └─────────────────────────────────────────────────────────────┘
 ```
-
----
 
 ## 📘 第 1 月：夯实基础（7 月 7 日 — 8 月 3 日）
 
@@ -175,8 +169,6 @@ print(f"模型要调用: {tool_call.function.name}({args})")
 - Python: [Python for Java Developers](https://realpython.com/) (Real Python)
 - LLM API: 各厂商官方文档（DeepSeek 性价比最高，Claude 能力最强）
 
----
-
 ### Week 3：Prompt Engineering 深度实战（每天 3-4 小时）
 
 #### 🎯 目标
@@ -252,8 +244,6 @@ print(review)  # ProductReview(product_name='手机', sentiment='positive', ...)
 - [ ] Prompt 模板库（至少 5 个场景：客服、数据分析、代码生成、文档总结、任务规划）
 - [ ] 手写 ReAct Agent（不依赖框架，纯代码实现）
 - [ ] Structured Output Demo（信息提取 + JSON Schema）
-
----
 
 ### Week 4：RAG 基础 + 向量数据库（每天 3-4 小时）
 
@@ -342,8 +332,6 @@ print(results["documents"])  # 返回最相关的文档片段
 - [LlamaIndex 官方文档](https://docs.llamaindex.ai/)
 - [Chroma 官方文档](https://docs.trychroma.com/)
 - B 站搜索 "RAG 实战 2026"
-
----
 
 ## 📗 第 2 月：核心技能突破（8 月 4 日 — 8 月 31 日）
 
@@ -497,8 +485,6 @@ result = agent.invoke(None, config)  # 传入 None 表示继续
 - [ ] 带 Human-in-the-Loop 的审批工作流 Agent
 - [ ] 笔记：LangGraph vs CrewAI vs AutoGen 对比
 
----
-
 ### Week 7：MCP 协议 + Spring AI 2.0（每天 4 小时）⭐ Java 主场
 
 #### 🎯 目标
@@ -641,8 +627,6 @@ class AgentService {
 - [MCP 协议规范](https://modelcontextprotocol.io/)
 - InfoQ 文章：《2026年了，你的 Spring Boot 接口还没接 MCP？》
 
----
-
 ### Week 8：Multi-Agent 协作框架（每天 3-4 小时）
 
 #### 🎯 目标
@@ -760,8 +744,6 @@ user_proxy.initiate_chat(
 - [ ] CrewAI 项目：自动化市场调研团队（3 个 Agent 协作）
 - [ ] AutoGen 项目：自动化代码审查流水线
 - [ ] 多 Agent 架构设计文档（何时用 CrewAI vs AutoGen vs LangGraph）
-
----
 
 ## 📕 第 3 月：生产级实战（9 月 1 日 — 9 月 30 日）
 
@@ -894,8 +876,6 @@ agent = create_agent(checkpointer=checkpointer)
 - [ ] 架构设计文档
 - [ ] 性能测试报告（QPS、延迟、Token 消耗）
 
----
-
 ### Week 11：A2A 协议 + Agent 部署运维（每天 3 小时）
 
 #### 📚 学习清单
@@ -923,8 +903,6 @@ agent_card = {
 # 你的 Java Agent 可以通过 A2A 协议调用 Python Agent
 # 反之亦然 —— 这就是多 Agent 生态的未来
 ```
-
----
 
 ### Week 12：作品集打磨 + 面试准备（每天 3 小时）
 
@@ -957,8 +935,6 @@ agent_card = {
 - ✅ 工程化落地能力（CI/CD、监控、运维 — Python 新手通常不具备）
 - ✅ 既懂 Python 生态又懂 Java 生态，可以做技术选型和架构决策
 
----
-
 ## 📅 每日时间分配建议（工作日）
 
 | 时间段 | 活动 | 时长 |
@@ -967,8 +943,6 @@ agent_card = {
 | 午休 12:30-13:30 | 碎片学习（读文章/刷推） | 1h |
 | 晚上 20:00-22:00 | 动手实战（写代码/做项目） | 2h |
 | 周末 | 项目冲刺 + 深度阅读 | 6-8h/天 |
-
----
 
 ## 🔑 关键学习资源（2026 年 7 月最新）
 
@@ -982,8 +956,6 @@ agent_card = {
 | LangFuse（自部署） | 工具 | 免费开源的 Agent 可观测性平台 |
 | Cursor / Claude Code | 工具 | AI 辅助编程，加速你的学习 |
 
----
-
 ## ⚠️ 避坑指南
 
 | 坑 | 说明 | 正确做法 |
@@ -994,8 +966,6 @@ agent_card = {
 | ❌ 只看教程不动手 | 看 100 篇不如写 1 个项目 | ✅ 每学一个概念就做一个 Demo |
 | ❌ 忽视可观测性 | 生产环境没它等于盲人摸象 | ✅ 第一天就接入 LangFuse |
 | ❌ 忽视安全 | Prompt 注入能让 Agent 泄露一切 | ✅ 学习 Guardrails / 权限控制 |
-
----
 
 ## 📌 总结
 
