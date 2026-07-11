@@ -1,7 +1,9 @@
 # 企业知识库 RAG Agent 工作台：Spring AI 2.0 落地全景分析报告
 
 > **项目定位**：基于 Spring AI 2.0 重构的企业级知识管理与智能问答平台
+> 
 > **技术基座**：Java 21 + Spring Boot 4.1 + Spring AI 2.0.0 GA + Milvus + PostgreSQL + Vue3
+> 
 > **报告目标**：提供从架构设计到上线运维的全生命周期、高可操作性落地指南
 
 ---

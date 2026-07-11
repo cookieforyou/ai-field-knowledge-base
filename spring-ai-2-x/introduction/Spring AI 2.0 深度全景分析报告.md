@@ -1,7 +1,9 @@
 # Spring AI 2.0 深度全景分析报告
 
 > **版本**：Spring AI 2.0.0 GA（2026年6月12日正式发布）
+> 
 > **基座**：Spring Boot 4.1.0 + Spring Framework 7.0 + Jakarta EE 11 + Java 21（强制）
+> 
 > **历时**：8 个里程碑版本（M1~M8）+ 2 个候选版本（RC1~RC2），历时半年多
 
 ---
