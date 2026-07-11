@@ -4,21 +4,22 @@
 > 
 > **技术基座**：Java 21 (虚拟线程) + Spring Boot 4.1 + Spring AI 2.0.0 GA + Milvus + Elasticsearch
 > 
-> **报告目标**：将 Python/FastAPI 体系下的优秀业务设计，完美映射并升华至 Java/Spring AI 2.0 企业级架构体系，提供从 0 到 1 的硬核落地指南。
+> **报告目标**：将 Python/FastAPI/LangChain 体系下的优秀业务设计，完美映射并升华至 Java/Spring AI 2.0 企业级架构体系，提供从 0 到 1 的硬核落地指南。
 
 ---
 
 ## 一、 核心痛点与 Spring AI 2.0 破局映射
 
-原项目精准抓住了企业 RAG 的五大痛点。在 Spring AI 2.0 体系下，我们将通过其最新的模块化架构和 Advisor 机制逐一破局：
+原项目精准抓住了企业 RAG 的五大痛点。在 Spring AI 2.0 体系下，我们将通过其最新的模块化架构、Advisor 机制和 ToolCallingManager 逐一破局：
 
-| 业务痛点 | 原 Python 方案 | **Spring AI 2.0 企业级破局方案** |
+| 业务痛点 | 原 Python/LangChain 方案 | **Spring AI 2.0 企业级破局方案** |
 | :--- | :--- | :--- |
 | **文档解析难** (表格/扫描件) | 原生解析 + OCR 动态路由 | **Spring AI DocumentReader** + 自定义 `SmartOcrRoutingReader` (结合 Tika 与 OCR API) |
-| **切分碎片化** (结构丢失) | 半结构化保护式切分 | 自定义 `HtmlProtectingTextSplitter` (基于 AST 解析保护 `<table>`/`<img>` 节点) |
+| **切分碎片化** (结构丢失) | 半结构化保护式切分 | 自定义 `HtmlProtectingTextSplitter` (基于 AST/正则解析保护 `<table>`/`<img>` 节点) |
 | **纯向量检索不稳** (字段名命中低) | Milvus + BM25 + RRF 融合 | **Spring AI VectorStore** (Milvus) + **Elasticsearch** (BM25) + 自定义 `RrfFusionReranker` |
 | **回答无依据/幻觉** | Prefetch 预检索注入 | **自定义 PrefetchAdvisor** (拦截器前置检索) + Grounding Prompt 模板 |
 | **链路割裂/难调试** | 日志落库 + 前端观测 | **Spring AI Observability** (Micrometer/OTel) + 自定义 `AuditTraceAdvisor` 全链路埋点 |
+| **Agent 扩展难** | LangGraph 构建 Agent | **ChatClient + ToolCallingManager + MCP** 标准化 Agent 编排 |
 
 ---
 
@@ -28,7 +29,7 @@
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                   接入层 (Vue3 工作台 + Spring Cloud Gateway)             │
+│                  接入层 (Vue3 工作台 + Spring Cloud Gateway)              │
 │   [文档管理]   [Chunk 观测]   [检索调试台]   [Agent 对话(SSE)]   [运维]      │
 └──────────────────────────────┬──────────────────────────────────────────┘
                                │ (REST / SSE / WebSocket)
@@ -336,7 +337,22 @@ public class AgentStreamController {
 
 ---
 
-## 四、 项目迭代与实施路线图 (从 0 到 100)
+## 四、 业务功能扩展与补充 (基于 2026 年市场需求)
+
+除了原文档中的基础功能，结合当前企业级 RAG 市场的最新需求，建议补充以下高级业务功能：
+
+1. **多租户与数据隔离 (Multi-Tenancy)**
+  - **实现**：在 `Document` 和 `Chunk` 的 Metadata 中注入 `tenant_id`。在 Milvus 和 Elasticsearch 检索时，通过 Spring AI 的 `FilterExpression` 强制追加 `tenant_id == 'xxx'` 的过滤条件，实现 SaaS 化数据隔离。
+2. **知识库权限管控 (RBAC for Knowledge)**
+  - **实现**：文档和 Chunk 绑定可见部门/角色。在 `PrefetchRagAdvisor` 中，根据当前登录用户的权限，动态生成检索过滤表达式，确保“什么级别的人只能搜到什么级别的知识”。
+3. **对话反馈与自动微调闭环 (RLHF/Feedback Loop)**
+  - **实现**：前端增加 👍/👎 按钮。用户点踩时，弹窗收集“期望的正确回答”。数据落入 `kb_feedback` 表，定期导出为 JSONL 格式，用于企业私有模型的 SFT（监督微调）。
+4. **Agent 工具调用扩展 (Tool Calling)**
+  - **实现**：除了 RAG 检索，Agent 还需要查询实时数据（如“帮我查一下公司今天的股价并对比知识库里的财报”）。通过 Spring AI 2.0 的 `@Tool` 注解，将内部 ERP、OA 系统的 API 注册为工具，由 `ToolCallingManager` 自动编排调用。
+
+---
+
+## 五、 项目迭代与实施路线图 (从 0 到 100)
 
 为确保项目高质量交付，建议分为四个 Phase 稳步推进：
 
@@ -368,6 +384,7 @@ public class AgentStreamController {
     * 实现基于 SSE 的流式事件推送（Token + Trace 卡片）。
     * 引入 `MessageChatMemoryAdvisor` 实现多轮会话管理。
     * 增加 `RateLimitAdvisor` 与输入输出脱敏护栏。
+    * 增加多租户隔离、权限管控与 `RateLimitAdvisor`。
 * **交付物**：完整的企业知识库 Agent 工作台（前端 Vue3 全功能上线）。
 
 ### Phase 4: 运维、观测与持续优化 (第 12-14 周)
@@ -376,21 +393,23 @@ public class AgentStreamController {
 * **技术动作**：
     * 完善 Chunk CRUD 与索引重建机制。
     * 接入 OpenTelemetry，配置 Grafana AI 监控大盘。
-    * 实现问答日志落库，开发 Bad Case 标注与 Prompt 调优工作流。
+    * 实现问答日志落库与反馈闭环，开发 Bad Case 标注与 Prompt 调优工作流。
+    * 引入 `@Tool` 扩展 Agent 业务能力（对接内部 OA/ERP）。
 * **交付物**：生产级 release，运维手册，监控大盘。
 
 ---
 
-## 五、 企业级避坑指南 (Java/Spring AI 专属)
+## 六、 企业级避坑指南 (Java/Spring AI 专属)
 
-1. **虚拟线程的陷阱**：Spring AI 2.0 的流式调用 (`Flux`) 和外部 HTTP 客户端（如调用 OCR API）必须确保底层客户端支持虚拟线程（如使用 Spring Boot 4 默认的 RestClient/RestTemplate 或 WebClient），否则会导致虚拟线程 Pinning（退化到平台线程），丧失高并发优势。
+1. **虚拟线程的陷阱**：Spring AI 2.0 的流式调用 (`Flux`) 和外部 HTTP 客户端（如调用 OCR API）必须确保底层客户端支持虚拟线程（如使用 Spring Boot 4 默认的 RestClient 或 WebClient），否则会导致虚拟线程 Pinning（退化到平台线程），丧失高并发优势。
 2. **Milvus 连接池管理**：Spring AI 的 `MilvusVectorStore` 封装了底层 SDK。在企业级高并发下，务必在配置中调优 Milvus Client 的连接池参数，避免检索时出现连接耗尽。
-3. **长文本 Token 溢出**：在 `PrefetchRagAdvisor` 中注入证据时，必须计算 Evidence 的 Token 数量。如果检索出的 Chunk 过多，需使用 Spring AI 的 `ContextCompressor` (或调用轻量级模型) 进行上下文压缩，防止超出 LLM 的 Context Window。
+3. **长文本 Token 溢出**：在 `PrefetchRagAdvisor` 中注入证据时，必须计算 Evidence 的 Token 数量。如果检索出的 Chunk 过多，需使用 Spring AI 的上下文压缩机制（或调用轻量级模型）进行压缩，防止超出 LLM 的 Context Window。
 4. **SSE 代理超时**：企业级 Nginx/Gateway 默认会对长连接有超时限制（如 60s）。Agent 思考或复杂工具调用可能超过此时间。必须在网关层配置 SSE 心跳保活机制，或调整 Gateway 的 `proxy_read_timeout`。
+5. **Advisor 顺序问题**：Advisor 的执行顺序由 `getOrder()` 决定。务必确保 `RateLimit` (限流) 在最外层，`Memory` (记忆) 在 `RAG` (检索) 之前（因为可能需要结合历史对话改写 Query），`Audit` (审计) 在最内层或最外层以捕获完整上下文。
 
 ---
 
-## 六、 总结
+## 七、 总结
 
 本项目通过引入 **Spring AI 2.0**，彻底颠覆了传统 Python 体系下 RAG 链路“面条式”的代码结构。
 
