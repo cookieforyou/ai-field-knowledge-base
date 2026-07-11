@@ -383,8 +383,8 @@ public class AgentStreamController {
     * 研发 `PrefetchRagAdvisor`，实现上下文证据注入与溯源元数据透传。
     * 实现基于 SSE 的流式事件推送（Token + Trace 卡片）。
     * 引入 `MessageChatMemoryAdvisor` 实现多轮会话管理。
-    * 增加 `RateLimitAdvisor` 与输入输出脱敏护栏。
-    * 增加多租户隔离、权限管控与 `RateLimitAdvisor`。
+    * 增加 `RateLimitAdvisor` 实现流量控制。
+    * 增加多租户隔离、权限管控与输入输出脱敏护栏。
 * **交付物**：完整的企业知识库 Agent 工作台（前端 Vue3 全功能上线）。
 
 ### Phase 4: 运维、观测与持续优化 (第 12-14 周)
