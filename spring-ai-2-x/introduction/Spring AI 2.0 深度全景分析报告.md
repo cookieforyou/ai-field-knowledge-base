@@ -105,17 +105,17 @@ spring-ai-advisors-vector-store  ← 桥接模块（Advisor连接VectorStore与C
 把工具执行循环从各个 ChatModel 中**抽离**出来，由 `ToolCallingManager` **统一处理**。
 
 ```
-┌──────────────────────────────────────────────────┐
-│                   ChatClient                      │
-│    ┌─────────────┐   ┌──────────────────────┐   │
-│    │  ChatModel   │   │ ToolCallingManager   │   │
-│    │ (只负责推理)  │   │ (统一执行工具循环)     │   │
-│    └─────────────┘   └──────────────────────┘   │
-│                              │                    │
-│              ┌───────────────┼───────────────┐   │
-│              ▼               ▼               ▼   │
-│       MethodTool     FunctionTool      MCP Tool  │
-└──────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────┐
+│                   ChatClient                       │
+│    ┌─────────────┐   ┌──────────────────────┐      │
+│    │  ChatModel  │   │ ToolCallingManager   │      │
+│    │ (只负责推理)│   │ (统一执行工具循环)   │      │
+│    └─────────────┘   └──────────────────────┘      │
+│                              │                     │
+│              ┌───────────────┼───────────────┐     │
+│              ▼               ▼               ▼     │
+│          MethodTool     FunctionTool      MCP Tool │
+└────────────────────────────────────────────────────┘
 ```
 
 #### 核心代码结构
@@ -890,24 +890,24 @@ public class AgentController {
 
 ```
 ┌──────────────────── Spring AI 2.0 核心概念 ────────────────────┐
-│                                                                 │
-│  ChatModel ─── 模型抽象（GPT/Claude/Gemini/Llama...）           │
-│      │                                                          │
-│  ChatClient ── 统一入口（Fluent API，90%场景用这个）             │
-│      │                                                          │
-│  Advisor ───── 拦截器链（记忆/RAG/安全护栏/日志...）             │
-│      │                                                          │
-│  ToolCallback ─ 工具注册（@Tool注解 / Method / Function / MCP）  │
-│      │                                                          │
-│  VectorStore ── 向量存储（Redis/Pinecone/Chroma/PgVector...）   │
-│      │                                                          │
-│  EmbeddingModel 嵌入模型（文本→向量）                            │
-│      │                                                          │
-│  DocumentReader 文档读取（PDF/Word/HTML/Markdown...）            │
-│      │                                                          │
-│  MCP Client ─── 模型上下文协议客户端（标准化工具协议）            │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+│                                                                │
+│  ChatModel ─── 模型抽象（GPT/Claude/Gemini/Llama...）          │
+│      │                                                         │
+│  ChatClient ── 统一入口（Fluent API，90%场景用这个）           │
+│      │                                                         │
+│  Advisor ───── 拦截器链（记忆/RAG/安全护栏/日志...）           │
+│      │                                                         │
+│  ToolCallback ─ 工具注册（@Tool注解 / Method / Function / MCP）│
+│      │                                                         │
+│  VectorStore ── 向量存储（Redis/Pinecone/Chroma/PgVector...）  │
+│      │                                                         │
+│  EmbeddingModel 嵌入模型（文本→向量）                          │
+│      │                                                         │
+│  DocumentReader 文档读取（PDF/Word/HTML/Markdown...）          │
+│      │                                                         │
+│  MCP Client ─── 模型上下文协议客户端（标准化工具协议）         │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ---
